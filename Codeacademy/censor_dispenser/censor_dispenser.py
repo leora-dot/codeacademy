@@ -11,7 +11,7 @@ negative_words = ["concerned", "behind", "danger", "dangerous", "alarming", "ala
 
 # These are my functions and lists which power the excercises:
 
-punctuation = [".","?",",",":",";","!","-"]
+punctuation = [".","?",",",":",";","!","-","/","\""]
 
 def case_shuffler(phrase):
     all_cases = [phrase.upper(),phrase.lower(),phrase.title()]
@@ -41,17 +41,34 @@ def basic_remover(phrase,text,censor_character = "x"):
 def list_remover(phrases,text):
     for phrase in phrases:
         text = basic_remover(phrase,text)
-    return text 
+    return text
+
+#print(list_remover(proprietary_terms,email_two)
 
 #The most recent email update has concerned Mr. Cloudy, but not for the reasons you might think. He tells you, “this is too alarmist for the Board of Investors! Let’s tone down the negative language and remove unnecessary instances of ‘negative words.’”
 #Write a function that can censor any occurance of a word from the “negative words” list after any “negative” word has occurred twice, as well as censoring everything from the list from the previous step as well and use it to censor email_three. (reference negative_words)
 
-def negativity_remover(text):
-    # Negativity Sensor
+def negativity_remover(text, negativity_threshold = 2):
+    #Negativity Sensor
+    ##Creating List of words
     text_no_punctuation = list_remover(punctuation,text)
-    return text_no_punctuation
-    
-print(negativity_remover("I am testing this phrase. Here this is another sentence"))
+    text_words = text_no_punctuation.split()
+    text_words = [word.lower() for word in text_words]
+    ##Assessingg Negativity
+    negativity_counter = 0
+    for word in negative_words:
+        word_count = text.count(word)
+        negativity_counter = max(negativity_counter,word_count)
+    #Censoring
+    if negativity_counter >= negativity_threshold:
+        text = list_remover(negative_words,text)
+    else:
+        pass
+    text = list_remover(proprietary_terms,text)
+    return text
+
+print(email_three)
+#print(negativity_remover(email_three))
 
 #This final email has Mr. Cloudy in a frenzy. “We can’t let this information get out!” He tells you, “our company would be ruined! Censor it! Censor it all!”
 #Write a function that censors not only all of the words from the negative_words and proprietary_terms lists, but also censor any words in email_four that come before AND after a term from those two lists.
