@@ -15,21 +15,21 @@ def case_shuffler(phrase):
     all_cases = [phrase.upper(),phrase.lower(),phrase.title()]
     return all_cases
 
-print(case_shuffler("the system"))
-
 def basic_remover(phrase,text):
-    # Generating the Cover Phrase
+    #Generating the Cover Phrase
     cover_phrase = ""
     for i in range(len(phrase)):
         cover_phrase = cover_phrase + "x"
-    # Removing Phrase 
-    phrase_instance = text.find(phrase)
-    while phrase_instance > -1:
-        text = text.replace(phrase,cover_phrase)
-        phrase_instance = text.find(phrase)
+    #Removing Phrase
+    phrases_for_removal = case_shuffler(phrase)
+    for phrase_for_removal in phrases_for_removal:
+        phrase_instance = text.find(phrase_for_removal)
+        while phrase_instance > -1:
+            text = text.replace(phrase_for_removal,cover_phrase)
+            phrase_instance = text.find(phrase)
     return text
 
-print(basic_remover("the system",email_one))
+print(basic_remover("we",email_one))
 
 #Mr. Cloudy has asked you to use the function to censor all instances of the phrase learning algorithms from the first email, email_one.
 #Mr. Cloudy doesn’t care how you censor it, he just wants it done.
