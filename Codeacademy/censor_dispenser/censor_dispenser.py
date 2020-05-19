@@ -11,6 +11,12 @@ negative_words = ["concerned", "behind", "danger", "dangerous", "alarming", "ala
 
 #Write a function that can censor a specific word or phrase from a body of text, and then return the text.
 
+def case_shuffler(phrase):
+    all_cases = [phrase.upper(),phrase.lower(),phrase.title()]
+    return all_cases
+
+print(case_shuffler("the system"))
+
 def basic_remover(phrase,text):
     if phrase in text:
         # Generating the Cover Phrase
@@ -26,7 +32,7 @@ def basic_remover(phrase,text):
     else:
         return "No censorship needed"
 
-print(basic_remover("the system",email_one))
+#print(basic_remover("the system",email_one))
 
 #Mr. Cloudy has asked you to use the function to censor all instances of the phrase learning algorithms from the first email, email_one.
 #Mr. Cloudy doesn’t care how you censor it, he just wants it done.
