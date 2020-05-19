@@ -7,10 +7,27 @@ email_four = open("email_four.txt", "r").read()
 # These are the lists provided by codeacademy
 
 proprietary_terms = ["she", "personality matrix", "sense of self", "self-preservation", "learning algorithm", "her", "herself"]
-
 negative_words = ["concerned", "behind", "danger", "dangerous", "alarming", "alarmed", "out of control", "help", "unhappy", "bad", "upset", "awful", "broken", "damage", "damaging", "dismal", "distressed", "distressed", "concerning", "horrible", "horribly", "questionable"]
 
 #Write a function that can censor a specific word or phrase from a body of text, and then return the text.
+
+def basic_remover(phrase,text):
+    if phrase in text:
+        # Generating the Cover Phrase
+        cover_phrase = ""
+        for i in range(len(phrase)):
+            cover_phrase = cover_phrase + "x"
+        # Removing Phrase 
+        phrase_instance = text.find(phrase)
+        while phrase_instance > -1:
+            text = text.replace(phrase,cover_phrase)
+            phrase_instance = text.find(phrase)
+        return text
+    else:
+        return "No censorship needed"
+
+print(basic_remover("the system",email_one))
+
 #Mr. Cloudy has asked you to use the function to censor all instances of the phrase learning algorithms from the first email, email_one.
 #Mr. Cloudy doesn’t care how you censor it, he just wants it done.
 
@@ -28,4 +45,4 @@ negative_words = ["concerned", "behind", "danger", "dangerous", "alarming", "ala
 #Take a moment to look over your functions, are they the best they can be? As a challenge, make sure they:
 #Handle upper and lowercase letters.
 #Handle punctuation.
-#Censor words while preserving their length.
+#Censor words while preserving their length
