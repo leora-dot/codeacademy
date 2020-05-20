@@ -99,19 +99,27 @@ def basic_censor(text, negativity_threshold = 2):
 def adv_censor(text):
     text_words = text_to_word_list(text)
     censor_words = negative_words + proprietary_terms
+    ## finding where the word appears in the text
     for word in censor_words:
         try:
             phrase_index = text_words.index(word)
         except ValueError:
-            continue 
-        before_word = text_words[phrase_index-1]
-        after_word = text_words[phrase_index+1]
-        temp_censor_words = [word,before_word,after_word]
+            continue
+        ## generating the before and after words that also need to be removed. Our three cases depend on whether the phrase is in the middle of the text (in which case we add words bothe before and after) or whether it is the first or last word (in which case we only add before or after words). 
+        temp_censor_words = [word]
+        if 0<phrase_index<len(text_words)-1:
+            temp_censor_words.append(text_words[phrase_index-1])
+            temp_censor_words.append(text_words[phrase_index+1])
+        elif phrase_index == 0:
+            temp_censor_words.append(text_words[phrase_index+1])
+        else:
+            temp_censor_words.append(text_words[phrase_index-1])
+        ##Censoring all three words from the text
         text = list_censor(temp_censor_words,text)
     return text
 
 #Testing Excercise 4
-print(adv_censor("I am concerned about whether or not my function works"))
+print(adv_censor(email_four))
 
 #Challenge notes
 #Great job! The Board of Investors is none the wiser to what is going on in the lab and Mr. Cloudy is very happy.
