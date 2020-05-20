@@ -15,7 +15,14 @@ punctuation = [".","?",",",":",";","!","-","/","\""]
 
 def case_shuffler(phrase):
     all_cases = [phrase.upper(),phrase.lower(),phrase.title()]
-    return all_cases   
+    return all_cases
+
+def sort_by_reverse_length(input_list):
+    words_and_lengths= [[len(word),word] for word in input_list]
+    words_and_lengths.sort(reverse = True)
+    print (words_and_lengths)
+        
+print(sort_by_reverse_length(proprietary_terms))
 
 #Write a function that can censor a specific word or phrase from a body of text, and then return the text.
 #Mr. Cloudy has asked you to use the function to censor all instances of the phrase learning algorithms from the first email, email_one.
@@ -67,7 +74,6 @@ def negativity_remover(text, negativity_threshold = 2):
     text = list_remover(proprietary_terms,text)
     return text
 
-print(email_three)
 #print(negativity_remover(email_three))
 
 #This final email has Mr. Cloudy in a frenzy. “We can’t let this information get out!” He tells you, “our company would be ruined! Censor it! Censor it all!”
