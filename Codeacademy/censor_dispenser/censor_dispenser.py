@@ -25,19 +25,17 @@ def sort_by_reverse_length(list_of_phrases):
     sorted_phrases = [phrase for num,phrase in phrases_and_lengths]
     return sorted_phrases
 
-print(sort_by_reverse_length(negative_words))
-
 #Excercise 1
 #Write a function that can censor a specific word or phrase from a body of text, and then return the text.
 #Mr. Cloudy has asked you to use the function to censor all instances of the phrase learning algorithms from the first email, email_one.
 #Mr. Cloudy doesn’t care how you censor it, he just wants it done.
 
-def basic_remover(phrase,text,censor_character = "x"):
-    #Generating the Cover Phrase
+def phrase_censor(phrase,text,censor_character = "x"):
+    #Generating the cover_phrase, the phrase which will replace any censored phrases. By default, it replaces with x's.
     cover_phrase = ""
     for i in range(len(phrase)):
         cover_phrase = cover_phrase + censor_character
-    #Removing Phrase
+    #Searching for and replacing the censored phrases. 
     phrases_for_removal = case_shuffler(phrase)
     for phrase_for_removal in phrases_for_removal:
         phrase_instance = text.find(phrase_for_removal)
@@ -47,49 +45,52 @@ def basic_remover(phrase,text,censor_character = "x"):
     return text
 
 #Testing Excercise 1
-#print(basic_remover("the system",email_one))
+#print(phrase_censor("the system",email_one))
 
 #Excercise 2
 #Write a function that can censor not just a specific word or phrase from a body of text, but a whole list of words and phrases, and then return the text.
-#Mr. Cloudy has asked that you censor all words and phrases from the following list in email_two. (Reference prorietary_terms)
+#Mr. Cloudy has asked that you censor all words and phrases from the following list in email_two.
 
-def list_remover(phrase_list,text):
+def list_censor(phrase_list,text):
     phrase_list = sort_by_reverse_length(phrase_list)
     for phrase in phrase_list:
-        text = basic_remover(phrase,text)
+        text = phrase_censor(phrase,text)
     return text
 
 #Testing Excercise 2
-#print(list_remover(negative_words,email_two))
+#print(list_censor(proprietary_terms,email_two))
 
 #Excercise 3
 #The most recent email update has concerned Mr. Cloudy, but not for the reasons you might think. He tells you, “this is too alarmist for the Board of Investors! Let’s tone down the negative language and remove unnecessary instances of ‘negative words.’”
 #Write a function that can censor any occurance of a word from the “negative words” list after any “negative” word has occurred twice, as well as censoring everything from the list from the previous step as well and use it to censor email_three. (reference negative_words)
 
-def negativity_remover(text, negativity_threshold = 2):
-    #Negativity Sensor
-    ##Creating List of words
-    text_no_punctuation = list_remover(punctuation,text)
+def basic_censor(text, negativity_threshold = 2):
+    #Creating a list of words that are in the email
+    text_no_punctuation = list_censor(punctuation,text)
     text_words = text_no_punctuation.split()
     text_words = [word.lower() for word in text_words]
-    ##Assessingg Negativity
+    #Assessing whether any of the negative words appear in the email a sufficient number of times that we want to censor them. The default is that if any negative word appears at least twice, we will do negativity censoring.
     negativity_counter = 0
     for word in negative_words:
         word_count = text.count(word)
         negativity_counter = max(negativity_counter,word_count)
-    #Censoring
+    #Negativity censoring, if needed
     if negativity_counter >= negativity_threshold:
-        text = list_remover(negative_words,text)
+        text = list_censor(negative_words,text)
     else:
         pass
-    text = list_remover(proprietary_terms,text)
+    #Censorship of proprietary terms
+    text = list_censor(proprietary_terms,text)
     return text
 
-#print(negativity_remover(email_three))
+#Testing Excercise 3
+#print(basic_censor(email_three))
 
 #Excercise 4
 #This final email has Mr. Cloudy in a frenzy. “We can’t let this information get out!” He tells you, “our company would be ruined! Censor it! Censor it all!”
 #Write a function that censors not only all of the words from the negative_words and proprietary_terms lists, but also censor any words in email_four that come before AND after a term from those two lists.
+
+
 
 #Challenge notes
 #Great job! The Board of Investors is none the wiser to what is going on in the lab and Mr. Cloudy is very happy.
