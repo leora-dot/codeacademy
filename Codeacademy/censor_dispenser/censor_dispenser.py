@@ -48,9 +48,13 @@ def basic_remover(phrase,text,censor_character = "x"):
 #Mr. Cloudy has asked that you censor all words and phrases from the following list in email_two. (Reference prorietary_terms)
 
 def list_remover(phrases,text):
+    phrases = sort_by_reverse_length(phrases)
     for phrase in phrases:
         text = basic_remover(phrase,text)
     return text
+
+#Testing Excercise 2
+print(list_remover(negative_words,email_two))
 
 #Excercise 3
 #The most recent email update has concerned Mr. Cloudy, but not for the reasons you might think. He tells you, “this is too alarmist for the Board of Investors! Let’s tone down the negative language and remove unnecessary instances of ‘negative words.’”
