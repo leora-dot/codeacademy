@@ -47,6 +47,8 @@ def phrase_censor(phrase,text,censor_character = "x"):
 #Testing Excercise 1
 #print(phrase_censor("the system",email_one))
 
+print(phrase_censor("help",email_four))
+
 #Excercise 2
 #Write a function that can censor not just a specific word or phrase from a body of text, but a whole list of words and phrases, and then return the text.
 #Mr. Cloudy has asked that you censor all words and phrases from the following list in email_two.
@@ -94,32 +96,38 @@ def basic_censor(text, negativity_threshold = 2):
 
 #Excercise 4
 #This final email has Mr. Cloudy in a frenzy. “We can’t let this information get out!” He tells you, “our company would be ruined! Censor it! Censor it all!”
-#Write a function that censors not only all of the words from the negative_words and proprietary_terms lists, but also censor any words in email_four that come before AND after a term from those two lists.
+#Write a function that censors not only all of the words from the negative_words and proprietary_terms lists, but also censor any words in email four that come before AND after a term from those two lists.
 
 def adv_censor(text):
     text_words = text_to_word_list(text)
+    print(len(text_words))
     censor_words = negative_words + proprietary_terms
+    censor_words = sort_by_reverse_length(censor_words)
     ## finding where the word appears in the text
     for word in censor_words:
+        print("processing "+word)
         try:
             phrase_index = text_words.index(word)
         except ValueError:
             continue
-        ## generating the before and after words that also need to be removed. Our three cases depend on whether the phrase is in the middle of the text (in which case we add words bothe before and after) or whether it is the first or last word (in which case we only add before or after words). 
-        temp_censor_words = [word]
+        ## generating the before and after words that also need to be removed. Our three cases depend on whether the phrase is in the middle of the text (in which case we add words bothe before and after) or whether it is the first or last word (in which case we only add before or after words).
+        print(word + str(phrase_index)+ "checkpoint 0")
+        text = phrase_censor(word,text)
+        print("checkpoint1")
         if 0<phrase_index<len(text_words)-1:
-            temp_censor_words.append(text_words[phrase_index-1])
-            temp_censor_words.append(text_words[phrase_index+1])
+            print("checkpoint2")
+            text = phrase_censor(text_words[phrase_index-1],text)
+            text = phrase_censor(text_words[phrase_index+1],text)
         elif phrase_index == 0:
-            temp_censor_words.append(text_words[phrase_index+1])
+            text = phrase_censor(text_words[phrase_index+1],text)
         else:
-            temp_censor_words.append(text_words[phrase_index-1])
-        ##Censoring all three words from the text
-        text = list_censor(temp_censor_words,text)
+            text = phrase_censor(text_words[phrase_index-1],text)
     return text
 
 #Testing Excercise 4
-print(adv_censor(email_four))
+#print(adv_censor("I am concerned about printing"))
+#print(adv_censor(email_four))
+
 
 #Challenge notes
 #Great job! The Board of Investors is none the wiser to what is going on in the lab and Mr. Cloudy is very happy.
