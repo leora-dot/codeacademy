@@ -51,10 +51,10 @@ def phrase_censor(phrase,text,censor_character = "x"):
 #Write a function that can censor not just a specific word or phrase from a body of text, but a whole list of words and phrases, and then return the text.
 #Mr. Cloudy has asked that you censor all words and phrases from the following list in email_two.
 
-def list_censor(phrase_list,text):
+def list_censor(phrase_list,text,censor_character = "x"):
     phrase_list = sort_by_reverse_length(phrase_list)
     for phrase in phrase_list:
-        text = phrase_censor(phrase,text)
+        text = phrase_censor(phrase,text,censor_character)
     return text
 
 #Testing Excercise 2
@@ -63,6 +63,13 @@ def list_censor(phrase_list,text):
 #Excercise 3
 #The most recent email update has concerned Mr. Cloudy, but not for the reasons you might think. He tells you, “this is too alarmist for the Board of Investors! Let’s tone down the negative language and remove unnecessary instances of ‘negative words.’”
 #Write a function that can censor any occurance of a word from the “negative words” list after any “negative” word has occurred twice, as well as censoring everything from the list from the previous step as well and use it to censor email_three. (reference negative_words)
+
+#This function turns a text into a list of words. It cannot be moved to the top of the code because it uses the list_censor function to remove punctuation.
+def text_to_word_list(text):
+    text_no_punctuation = list_censor(punctuation,text,"")
+    text_words = text_no_punctuation.split()
+    text_words = [word.lower() for word in text_words]
+    return text_words
 
 def basic_censor(text, negativity_threshold = 2):
     #Creating a list of words that are in the email
