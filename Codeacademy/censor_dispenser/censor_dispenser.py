@@ -35,19 +35,27 @@ def phrase_censor(phrase,text,censor_character = "x"):
     cover_phrase = ""
     for i in range(len(phrase)):
         cover_phrase = cover_phrase + censor_character
+    print("checkpoint 0")
     #Searching for and replacing the censored phrases. 
     phrases_for_removal = case_shuffler(phrase)
+    print(phrases_for_removal)
+    print("check point 1 ")
+    print(phrases_for_removal)
     for phrase_for_removal in phrases_for_removal:
         phrase_instance = text.find(phrase_for_removal)
+        print("check point 2")
+        print(phrase_instance)
         while phrase_instance > -1:
+            print(phrase_for_removal+" is at index"+str(phrase_instance))
             text = text.replace(phrase_for_removal,cover_phrase)
-            phrase_instance = text.find(phrase)
+            print(text)
+            phrase_instance = text.find(phrase_for_removal)
     return text
 
 #Testing Excercise 1
 #print(phrase_censor("the system",email_one))
 
-print(phrase_censor("help",email_four))
+#print(phrase_censor("help",email_four))
 
 #Excercise 2
 #Write a function that can censor not just a specific word or phrase from a body of text, but a whole list of words and phrases, and then return the text.
@@ -111,7 +119,7 @@ def adv_censor(text):
         except ValueError:
             continue
         ## generating the before and after words that also need to be removed. Our three cases depend on whether the phrase is in the middle of the text (in which case we add words bothe before and after) or whether it is the first or last word (in which case we only add before or after words).
-        print(word + str(phrase_index)+ "checkpoint 0")
+        print(word + str(phrase_index)+ ", checkpoint 0")
         text = phrase_censor(word,text)
         print("checkpoint1")
         if 0<phrase_index<len(text_words)-1:
@@ -126,7 +134,7 @@ def adv_censor(text):
 
 #Testing Excercise 4
 #print(adv_censor("I am concerned about printing"))
-#print(adv_censor(email_four))
+print(adv_censor(email_four))
 
 
 #Challenge notes
