@@ -19,10 +19,13 @@ def case_shuffler(phrase):
     return all_cases
 
 # This function sorts a list of phrases in reverse order of length. It is used to ensure that the censor functions remove longer strings first, so that any phrase which contains another phrase is removed in its entirety. For example, we need to remove the word "herself" prior to removing "her." Otherwise "herself" is only partially censored.
-def sort_by_reverse_length(input_list):
-    words_and_lengths= [[len(word),word] for word in input_list]
-    words_and_lengths.sort(reverse = True)
-    return words_and_lengths
+def sort_by_reverse_length(list_of_phrases):
+    phrases_and_lengths= [[len(phrase),phrase] for phrase in list_of_phrases]
+    phrases_and_lengths.sort(reverse = True)
+    sorted_phrases = [phrase for num,phrase in phrases_and_lengths]
+    return sorted_phrases
+
+print(sort_by_reverse_length(negative_words))
 
 #Excercise 1
 #Write a function that can censor a specific word or phrase from a body of text, and then return the text.
@@ -43,18 +46,21 @@ def basic_remover(phrase,text,censor_character = "x"):
             phrase_instance = text.find(phrase)
     return text
 
+#Testing Excercise 1
+#print(basic_remover("the system",email_one))
+
 #Excercise 2
 #Write a function that can censor not just a specific word or phrase from a body of text, but a whole list of words and phrases, and then return the text.
 #Mr. Cloudy has asked that you censor all words and phrases from the following list in email_two. (Reference prorietary_terms)
 
-def list_remover(phrases,text):
-    phrases = sort_by_reverse_length(phrases)
-    for phrase in phrases:
+def list_remover(phrase_list,text):
+    phrase_list = sort_by_reverse_length(phrase_list)
+    for phrase in phrase_list:
         text = basic_remover(phrase,text)
     return text
 
 #Testing Excercise 2
-print(list_remover(negative_words,email_two))
+#print(list_remover(negative_words,email_two))
 
 #Excercise 3
 #The most recent email update has concerned Mr. Cloudy, but not for the reasons you might think. He tells you, “this is too alarmist for the Board of Investors! Let’s tone down the negative language and remove unnecessary instances of ‘negative words.’”
