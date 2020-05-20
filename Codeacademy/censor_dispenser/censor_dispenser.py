@@ -72,10 +72,7 @@ def text_to_word_list(text):
     return text_words
 
 def basic_censor(text, negativity_threshold = 2):
-    #Creating a list of words that are in the email
-    text_no_punctuation = list_censor(punctuation,text)
-    text_words = text_no_punctuation.split()
-    text_words = [word.lower() for word in text_words]
+    text_words = text_to_word_list(text)
     #Assessing whether any of the negative words appear in the email a sufficient number of times that we want to censor them. The default is that if any negative word appears at least twice, we will do negativity censoring.
     negativity_counter = 0
     for word in negative_words:
@@ -91,7 +88,7 @@ def basic_censor(text, negativity_threshold = 2):
     return text
 
 #Testing Excercise 3
-#print(basic_censor(email_three))
+print(basic_censor(email_three))
 
 #Excercise 4
 #This final email has Mr. Cloudy in a frenzy. “We can’t let this information get out!” He tells you, “our company would be ruined! Censor it! Censor it all!”
