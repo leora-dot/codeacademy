@@ -35,20 +35,12 @@ def phrase_censor(phrase,text,censor_character = "x"):
     cover_phrase = ""
     for i in range(len(phrase)):
         cover_phrase = cover_phrase + censor_character
-    print("checkpoint 0")
     #Searching for and replacing the censored phrases. 
     phrases_for_removal = case_shuffler(phrase)
-    print(phrases_for_removal)
-    print("check point 1 ")
-    print(phrases_for_removal)
     for phrase_for_removal in phrases_for_removal:
         phrase_instance = text.find(phrase_for_removal)
-        print("check point 2")
-        print(phrase_instance)
         while phrase_instance > -1:
-            print(phrase_for_removal+" is at index"+str(phrase_instance))
             text = text.replace(phrase_for_removal,cover_phrase)
-            print(text)
             phrase_instance = text.find(phrase_for_removal)
     return text
 
@@ -113,17 +105,13 @@ def adv_censor(text):
     censor_words = sort_by_reverse_length(censor_words)
     ## finding where the word appears in the text
     for word in censor_words:
-        print("processing "+word)
         try:
             phrase_index = text_words.index(word)
         except ValueError:
             continue
         ## generating the before and after words that also need to be removed. Our three cases depend on whether the phrase is in the middle of the text (in which case we add words bothe before and after) or whether it is the first or last word (in which case we only add before or after words).
-        print(word + str(phrase_index)+ ", checkpoint 0")
         text = phrase_censor(word,text)
-        print("checkpoint1")
         if 0<phrase_index<len(text_words)-1:
-            print("checkpoint2")
             text = phrase_censor(text_words[phrase_index-1],text)
             text = phrase_censor(text_words[phrase_index+1],text)
         elif phrase_index == 0:
