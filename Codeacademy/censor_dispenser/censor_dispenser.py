@@ -88,13 +88,30 @@ def basic_censor(text, negativity_threshold = 2):
     return text
 
 #Testing Excercise 3
-print(basic_censor(email_three))
+#print(basic_censor(email_three))
+#print(basic_censor("he is a bad dog"))
+#print(basic_censor("he is a bad, bad dog."))
 
 #Excercise 4
 #This final email has Mr. Cloudy in a frenzy. “We can’t let this information get out!” He tells you, “our company would be ruined! Censor it! Censor it all!”
 #Write a function that censors not only all of the words from the negative_words and proprietary_terms lists, but also censor any words in email_four that come before AND after a term from those two lists.
 
+def adv_censor(text):
+    text_words = text_to_word_list(text)
+    censor_words = negative_words + proprietary_terms
+    for word in censor_words:
+        try:
+            phrase_index = text_words.index(word)
+        except ValueError:
+            continue 
+        before_word = text_words[phrase_index-1]
+        after_word = text_words[phrase_index+1]
+        temp_censor_words = [word,before_word,after_word]
+        text = list_censor(temp_censor_words,text)
+    return text
 
+#Testing Excercise 4
+print(adv_censor("I am concerned about whether or not my function works"))
 
 #Challenge notes
 #Great job! The Board of Investors is none the wiser to what is going on in the lab and Mr. Cloudy is very happy.
