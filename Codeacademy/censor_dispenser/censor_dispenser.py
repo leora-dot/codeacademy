@@ -120,9 +120,28 @@ def adv_censor(text):
             text = phrase_censor(text_words[phrase_index-1],text)
     return text
 
+# Experiemnt for Excercise 4. Can we make it work better for phrases? If so, this function should replace the above. 
+
+def adv_censor_test(text):
+    # Creating lists of words and phrases to be censored
+    censor_list = negative_words + proprietary_terms
+    censor_list = sort_by_reverse_length(censor_list)
+    censor_words = []
+    censor_phrases = []
+    for object in censor_list:
+        if " " in object:
+            censor_phrases.append(object)
+        else:
+            censor_words.append(object)
+    #For censoring words, the function as originally imagined works. But how do we identify words that appear before phrases?
+
+test_string = "Does the computer have a sense of self?"     
+print(test_string.find("sense of self"))
+
+
 #Testing Excercise 4
 #print(adv_censor("I am concerned about printing"))
-print(adv_censor(email_four))
+#print(adv_censor(email_four))
 
 
 #Challenge notes
