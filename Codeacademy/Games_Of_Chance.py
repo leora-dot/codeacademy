@@ -59,7 +59,7 @@ def card_value(card):
 def coin(guess,bet):
   # This section validates values for guess and bet
   if bet_validation(bet) == True:
-    bet = bet
+    pass
   else:
     return
   if double_validation("heads","tails",guess) == True:
@@ -84,11 +84,11 @@ def coin(guess,bet):
 def chohan(guess,bet):
    # This section validates values for guess and bet
   if bet_validation(bet) == True:
-    bet = bet
+    pass
   else:
     return
   if double_validation("even","odd",guess) == True:
-    guess = guess
+    pass
   else:
    return
  # This section rolls both dice and evaluates whether the sum is odd or even
@@ -111,7 +111,7 @@ def chohan(guess,bet):
 def card_pick(bet):
    # This section validates the bet
   if bet_validation(bet) == True:
-    bet = bet
+    pass
   else:
     return
   # This section generates the list of cards in a standard deck, 52 cards plus two jokers. 
@@ -143,7 +143,7 @@ def card_pick(bet):
 def roulette(guess, bet):
    # This section validates the bet
   if bet_validation(bet) == True:
-    bet = bet
+    pass
   else:
     return
   # This section lists the numbers on the wheel and the states odd and even. 
