@@ -48,7 +48,7 @@ def phrase_censor(phrase,text,censor_character = "x"):
     return text
 
 #Testing Excercise 1
-print(phrase_censor("the system",email_one))
+#print(phrase_censor("the system",email_one))
 #print(phrase_censor("help",email_four))
 
 #Excercise 2
@@ -100,53 +100,35 @@ def basic_censor(text, negativity_threshold = 2):
 #This final email has Mr. Cloudy in a frenzy. “We can’t let this information get out!” He tells you, “our company would be ruined! Censor it! Censor it all!”
 #Write a function that censors not only all of the words from the negative_words and proprietary_terms lists, but also censor any words in email four that come before AND after a term from those two lists.
 
-def adv_censor(text):
+def adv_censor(text,censor_character = "x"):
+    #Creating lists of words and phrases to be censored
+    censor_list = negative_words + proprietary_terms
+    censor_list = sort_by_reverse_length(censor_list)
+    replacement_list = []
+    for censor_object in censor_list:
+        replacement_list.append(replacement_generator(censor_object, censor_character))
+    #Replacing censored words in the text
+    text = list_censor(censor_list,text,censor_character)
+    #Censoring words which appear before and after. We're going to look for replacements in our text.
     text_words = text_to_word_list(text)
-    print(len(text_words))
-    censor_words = negative_words + proprietary_terms
-    censor_words = sort_by_reverse_length(censor_words)
-    ## finding where the word appears in the text
-    for word in censor_words:
+    for word in replacement_list:
         try:
-            phrase_index = text_words.index(word)
+            word_index = text_words.index(word)
         except ValueError:
             continue
         ## generating the before and after words that also need to be removed. Our three cases depend on whether the phrase is in the middle of the text (in which case we add words bothe before and after) or whether it is the first or last word (in which case we only add before or after words).
-        text = phrase_censor(word,text)
-        if 0<phrase_index<len(text_words)-1:
-            text = phrase_censor(text_words[phrase_index-1],text)
-            text = phrase_censor(text_words[phrase_index+1],text)
+        if 0<word_index<len(text_words)-1:
+            text = phrase_censor(text_words[word_index-1],text)
+            text = phrase_censor(text_words[word_index+1],text)
         elif phrase_index == 0:
             text = phrase_censor(text_words[phrase_index+1],text)
         else:
             text = phrase_censor(text_words[phrase_index-1],text)
-    return text
-
-# Experiemnt for Excercise 4. Can we make it work better for phrases? If so, this function should replace the above. 
-
-def adv_censor_test(text):
-    # Creating lists of words and phrases to be censored
-    censor_list = negative_words + proprietary_terms
-    censor_list = sort_by_reverse_length(censor_list)
+    return text   
     
-    
-
-
-    censor_words = []
-    censor_phrases = []
-    for object in censor_list:
-        if " " in object:
-            censor_phrases.append(object)
-        else:
-            censor_words.append(object)
-    #For censoring words, the function as originally imagined works. But how do we identify words that appear before phrases?
-
-
-
 #Testing Excercise 4
 #print(adv_censor("I am concerned about printing"))
-#print(adv_censor(email_four))
-
+print(adv_censor(email_four))
 
 #Challenge notes
 #Great job! The Board of Investors is none the wiser to what is going on in the lab and Mr. Cloudy is very happy.
