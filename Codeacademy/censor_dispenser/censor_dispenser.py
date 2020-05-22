@@ -25,15 +25,13 @@ def sort_by_reverse_length(list_of_phrases):
     sorted_phrases = [phrase for num,phrase in phrases_and_lengths]
     return sorted_phrases
 
-# This function generates a replacement for each phrase to be censored
+# This function generates a replacement for each phrase to be censored. It replaces each character in the phrase with a censor character, defaulting to x.
 
 def replacement_generator(phrase, censor_character = "x"):
-    cover_phrase = ""
+    replacement_phrase = ""
     for i in range(len(phrase)):
-        cover_phrase = cover_phrase + censor_character
-    return cover_phrase
-
-print(replacement_generator("sense of self"))
+        replacement_phrase = replacement_phrase + censor_character
+    return replacement_phrase
 
 #Excercise 1
 #Write a function that can censor a specific word or phrase from a body of text, and then return the text.
@@ -41,22 +39,16 @@ print(replacement_generator("sense of self"))
 #Mr. Cloudy doesn’t care how you censor it, he just wants it done.
 
 def phrase_censor(phrase,text,censor_character = "x"):
-    #Generating the cover_phrase, the phrase which will replace any censored phrases. By default, it replaces with x's.
-    cover_phrase = ""
-    for i in range(len(phrase)):
-        cover_phrase = cover_phrase + censor_character
-    #Searching for and replacing the censored phrases. 
     phrases_for_removal = case_shuffler(phrase)
     for phrase_for_removal in phrases_for_removal:
         phrase_instance = text.find(phrase_for_removal)
         while phrase_instance > -1:
-            text = text.replace(phrase_for_removal,cover_phrase)
+            text = text.replace(phrase_for_removal,replacement_generator(phrase_for_removal,censor_character))
             phrase_instance = text.find(phrase_for_removal)
     return text
 
 #Testing Excercise 1
-#print(phrase_censor("the system",email_one))
-
+print(phrase_censor("the system",email_one))
 #print(phrase_censor("help",email_four))
 
 #Excercise 2
