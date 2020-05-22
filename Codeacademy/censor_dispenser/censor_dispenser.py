@@ -25,6 +25,16 @@ def sort_by_reverse_length(list_of_phrases):
     sorted_phrases = [phrase for num,phrase in phrases_and_lengths]
     return sorted_phrases
 
+# This function generates a replacement for each phrase to be censored
+
+def replacement_generator(phrase, censor_character = "x"):
+    cover_phrase = ""
+    for i in range(len(phrase)):
+        cover_phrase = cover_phrase + censor_character
+    return cover_phrase
+
+print(replacement_generator("sense of self"))
+
 #Excercise 1
 #Write a function that can censor a specific word or phrase from a body of text, and then return the text.
 #Mr. Cloudy has asked you to use the function to censor all instances of the phrase learning algorithms from the first email, email_one.
@@ -126,6 +136,10 @@ def adv_censor_test(text):
     # Creating lists of words and phrases to be censored
     censor_list = negative_words + proprietary_terms
     censor_list = sort_by_reverse_length(censor_list)
+    
+    
+
+
     censor_words = []
     censor_phrases = []
     for object in censor_list:
@@ -135,8 +149,6 @@ def adv_censor_test(text):
             censor_words.append(object)
     #For censoring words, the function as originally imagined works. But how do we identify words that appear before phrases?
 
-test_string = "Does the computer have a sense of self?"     
-print(test_string.find("sense of self"))
 
 
 #Testing Excercise 4
