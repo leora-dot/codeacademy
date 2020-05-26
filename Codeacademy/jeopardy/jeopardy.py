@@ -27,17 +27,58 @@ jeopardy_df.rename(columns = {"Show Number":"show_number",
 #print(jeopardy_df.columns)
 #print(jeopardy_df.head(10))
 
-
-
 #Requirement 3
-# Write a function that filters the dataset for questions that contains all of the words in a list of words. For example, when the list ["King", "England"] was passed to our function, the function returned a DataFrame of 152 rows. Every row had the strings "King" and "England" somewhere in its " Question".
-# Note that in this example, we found 152 rows by filtering the entire dataset. You can download the entire dataset at the start or end of this project. The dataset used on Codecademy is only a fraction of the dataset so you won’t find as many rows.
+# Write a function that filters the dataset for questions that contains all of the words in a list of words.
+# For example, when the list ["King", "England"] was passed to our function, the function returned a DataFrame of 152 rows.
+# Every row had the strings "King" and "England" somewhere in its " Question".
+# Note that in this example, we found 152 rows by filtering the entire dataset. You can download the entire dataset at the start or end of this project.
+# The dataset used on Codecademy is only a fraction of the dataset so you won’t find as many rows.
 # Test your function by printing out the column containing the question of each row of the dataset.
+
+## This function generates a list of words in a text, by removing punctuation and then splitting on space characters. It will be used to split questions into lists of words.  
+
+def list_of_words(text):
+    punctuation_signs = [".","?",",",":",";","!","-","/","\""]
+    for punctuation in punctuation_signs:
+        text = text.replace(punctuation, " ")
+    word_list = text.split()
+    return word_list
+
+## This function creates multiple variations for a list of words (currently just each word and the words plus an "s") and renders them all in lowercase. It will be used to broaden the list of possible keywords.
+
+def word_iterator(word_list):
+    all_variations = []
+    for word in word_list:
+        word_variations = [word, word+"s"]
+        all_variations = all_variations + word_variations
+    all_variations_lower = []
+    for word in all_variations:
+        all_variations_lower.append(word.lower())
+    return all_variations_lower
+
+def question_finder(word_list):
+    #Expands the list of words that we are looking for
+    word_list = word_iterator(word_list)
+    #This will contain the index numbers of rows with relevant questions
+    filtered_indices = []
+    #Searches for words in questions
+    for i in range(len(jeopardy_df)):
+        question_row = jeopardy_df.iloc[i]
+        question_words = list_of_words(question_row.question)
+        for word in word_list:
+            if word.lower() in question_words:
+                filtered_indices.append(i)
+                break
+    #Returns all rows which we added to our list of indices
+    return jeopardy_df.iloc[filtered_indices]
+
+print(question_finder(["King","England"]).head(10))
 
 #Requirement 4
 #Test your original function with a few different sets of words to try to find some ways your function breaks. Edit your function so it is more robust.
 #For example, think about capitalization. We probably want to find questions that contain the word "King" or "king".
-#You may also want to check to make sure you don’t find rows that contain substrings of your given words. For example, our function found a question that didn’t contain the word "king", however it did contain the word "viking" — it found the "king" inside "viking". Note that this also comes with some drawbacks — you would no longer find questions that contained words like "England's".
+#You may also want to check to make sure you don’t find rows that contain substrings of your given words. For example, our function found a question that didn’t contain the word "king", however it did contain the word "viking" — it found the "king" inside "viking".
+#Note that this also comes with some drawbacks — you would no longer find questions that contained words like "England's".
 
 #Requirement 5
 #We may want to eventually compute aggregate statistics, like .mean() on the " Value" column. But right now, the values in that column are strings. Convert the " Value" column to floats. If you’d like to, you can create a new column with the float values.
