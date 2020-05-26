@@ -3,8 +3,31 @@ import pandas as pd
 pd.set_option('display.max_colwidth', -1)
 
 #Requirement 2
-# We’ve provided a csv file containing data about the game show Jeopardy! in a file named jeopardy.csv. Load the data into a DataFrame and investigate its contents. Try to print out specific columns.
-# Note that in order to make this project as “real-world” as possible, we haven’t modified the data at all — we’re giving it to you exactly how we found it. As a result, this data isn’t as “clean” as the datasets you normally find on Codecademy. More specifically, there’s something odd about the column names. After you figure out the problem with the column names, you may want to rename them to make your life easier the rest of the project.
+# We’ve provided a csv file containing data about the game show Jeopardy! in a file named jeopardy.csv.
+#Load the data into a DataFrame and investigate its contents.
+#Try to print out specific columns.
+# Note that in order to make this project as “real-world” as possible, we haven’t modified the data at all — we’re giving it to you exactly how we found it.
+#As a result, this data isn’t as “clean” as the datasets you normally find on Codecademy.
+#More specifically, there’s something odd about the column names.
+#After you figure out the problem with the column names, you may want to rename them to make your life easier the rest of the project.
+
+jeopardy_df = pd.read_csv("jeopardy.csv")
+
+#print(jeopardy_df.head(10))
+
+jeopardy_df.rename(columns = {"Show Number":"show_number",
+                              " Air Date":"air_date",
+                              " Round":"round",
+                              " Category":"category",
+                              " Value":"value",
+                              " Question":"question",
+                              " Answer":"answer"},
+                   inplace = True)
+
+#print(jeopardy_df.columns)
+#print(jeopardy_df.head(10))
+
+
 
 #Requirement 3
 # Write a function that filters the dataset for questions that contains all of the words in a list of words. For example, when the list ["King", "England"] was passed to our function, the function returned a DataFrame of 152 rows. Every row had the strings "King" and "England" somewhere in its " Question".
