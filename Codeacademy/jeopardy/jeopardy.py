@@ -14,6 +14,9 @@ pd.set_option('display.max_columns', None)
 
 jeopardy_df = pd.read_csv("jeopardy.csv")
 
+#In order to cut down on runtime, I am limiting the file to the first 1,000 rows. I need to uncomment this line when I'm really testing, but it will be handy when I'm just writing things out.
+jeopardy_df = jeopardy_df.iloc[:1000]
+
 #print(jeopardy_df.head(10))
 
 jeopardy_df.rename(columns = {"Show Number":"show_number",
@@ -136,7 +139,8 @@ print(unique_answers(["Pokemon"]))
     
 
 #Requirement 7 
-#Explore from here! This is an incredibly rich dataset, and there are so many interesting things to discover. There are a few columns that we haven’t even started looking at yet. Here are some ideas on ways to continue working with this data:
+#Explore from here! This is an incredibly rich dataset, and there are so many interesting things to discover.
+#There are a few columns that we haven’t even started looking at yet. Here are some ideas on ways to continue working with this data:
 #Investigate the ways in which questions change over time by filtering by the date. How many questions from the 90s use the word "Computer" compared to questions from the 2000s?
 #Is there a connection between the round and the category? Are you more likely to find certain categories, like "Literature" in Single Jeopardy or Double Jeopardy?
 #Build a system to quiz yourself. Grab random questions, and use the input function to get a response from the user. Check to see if that response was right or wrong.
