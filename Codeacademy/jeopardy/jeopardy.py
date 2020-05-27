@@ -1,6 +1,7 @@
 #Codecademy Imports
 import pandas as pd
-pd.set_option('display.max_colwidth', -1)
+pd.set_option('display.max_colwidth', None)
+pd.set_option('display.max_columns', None)
 
 #Requirement 2
 # We’ve provided a csv file containing data about the game show Jeopardy! in a file named jeopardy.csv.
@@ -72,7 +73,7 @@ def question_finder(word_list):
     #Returns all rows which we added to our list of indices
     return jeopardy_df.iloc[filtered_indices]
 
-print(question_finder(["King","England"]).head(10))
+#print(question_finder(["King","Queen"]))
 
 #Requirement 4
 #Test your original function with a few different sets of words to try to find some ways your function breaks. Edit your function so it is more robust.
@@ -81,9 +82,32 @@ print(question_finder(["King","England"]).head(10))
 #Note that this also comes with some drawbacks — you would no longer find questions that contained words like "England's".
 
 #Requirement 5
-#We may want to eventually compute aggregate statistics, like .mean() on the " Value" column. But right now, the values in that column are strings. Convert the " Value" column to floats. If you’d like to, you can create a new column with the float values.
-#Now that you can filter the dataset of question, use your new column that contains the float values of each question to find the “difficulty” of certain topics. For example, what is the average value of questions that contain the word "King"?
+#We may want to eventually compute aggregate statistics, like .mean() on the " Value" column. But right now, the values in that column are strings.
+#Convert the " Value" column to floats. If you’d like to, you can create a new column with the float values.
+#Now that you can filter the dataset of question, use your new column that contains the float values of each question to find the “difficulty” of certain topics.
+#For example, what is the average value of questions that contain the word "King"?
 #Make sure to use the dataset that contains the float values as the dataset you use in your filtering function.
+
+#This lambda function converts dollar values to floats
+
+dollar_to_float = lambda x: None if x=="None" else float(x.replace("$","").replace(",",""))
+
+#These lines add a new, numerical value and delete the old one. The name of the column remains value. 
+jeopardy_df["value_numerical"] = jeopardy_df.value.apply(dollar_to_float)
+jeopardy_df = jeopardy_df.drop(columns = "value")
+jeopardy_df.rename(columns = {"value_numerical":"value"}, inplace = True)
+
+#print(jeopardy_df)
+#print(jeopardy_df.columns)
+
+def question_value_by_topic(word_list):
+    filtered_questions = question_finder(word_list)
+    filtered_values = filtered_questions["value"]
+    return filtered_values.mean()
+
+print(question_value_by_topic("Pokemon"))
+print(question_value_by_topic("Korea"))
+print(question_value_by_topic("IBM"))
 
 #Requirement 6
 #Write a function that returns the count of the unique answers to all of the questions in a dataset. For example, after filtering the entire dataset to only questions containing the word "King", we could then find all of the unique answers to those questions. The answer “Henry VIII” appeared 3 times and was the most common answer.
@@ -92,4 +116,5 @@ print(question_finder(["King","England"]).head(10))
 #Explore from here! This is an incredibly rich dataset, and there are so many interesting things to discover. There are a few columns that we haven’t even started looking at yet. Here are some ideas on ways to continue working with this data:
 #Investigate the ways in which questions change over time by filtering by the date. How many questions from the 90s use the word "Computer" compared to questions from the 2000s?
 #Is there a connection between the round and the category? Are you more likely to find certain categories, like "Literature" in Single Jeopardy or Double Jeopardy?
-#Build a system to quiz yourself. Grab random questions, and use the input function to get a response from the user. Check to see if that response was right or wrong. Note that you can’t do this on the Codecademy platform — to do this, download the data, and write and run the code on your own computer!
+#Build a system to quiz yourself. Grab random questions, and use the input function to get a response from the user. Check to see if that response was right or wrong.
+#Note that you can’t do this on the Codecademy platform — to do this, download the data, and write and run the code on your own computer!
