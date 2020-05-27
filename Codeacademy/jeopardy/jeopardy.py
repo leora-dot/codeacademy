@@ -124,20 +124,16 @@ def question_value_by_topic(word_list):
 #The answer “Henry VIII” appeared 3 times and was the most common answer.
 
 def unique_answers(word_list):
-    # generating the list of answers
+    # Filtering Relevant Questions
     filtered_questions = question_finder(word_list)
-    filtered_answers = filtered_questions["answer"]
-    answer_dict = {}
-    for answer in filtered_answers:
-        if answer in answer_dict.keys():
-            answer_dict[answer] +=1
-        else:
-            answer_dict[answer] =1
-    return answer_dict
+    # Returning Answer Count
+    answers_count = filtered_questions.groupby("answer").question.count().reset_index()
+    answers_count.rename(columns = {"question":"question_count"}, inplace = True)
+    return answers_count
 
-print(unique_answers(["Pokemon"]))
+#print(unique_answers(["Pokemon"]))
+print(unique_answers(["King"]))
     
-
 #Requirement 7 
 #Explore from here! This is an incredibly rich dataset, and there are so many interesting things to discover.
 #There are a few columns that we haven’t even started looking at yet. Here are some ideas on ways to continue working with this data:
