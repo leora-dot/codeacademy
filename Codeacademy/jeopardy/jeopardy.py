@@ -78,7 +78,7 @@ def question_finder(word_list):
 
 #print(question_finder(["King","Queen"]))
 #print(question_finder(["Pokemon"]))
-print(question_finder(["pokemon"]))
+#print(question_finder(["pokemon"]))
 #print(question_finder(["giraffe"]))
 
 #Requirement 4
@@ -111,9 +111,9 @@ def question_value_by_topic(word_list):
     filtered_values = filtered_questions["value"]
     return filtered_values.mean()
 
-#print(question_value_by_topic("Pokemon"))
-#print(question_value_by_topic("Korea"))
-#print(question_value_by_topic("IBM"))
+#print(question_value_by_topic(["Pokemon"]))
+#print(question_value_by_topic(["Korea"]))
+#print(question_value_by_topic(["IBM"]))
 
 #Requirement 6
 #Write a function that returns the count of the unique answers to all of the questions in a dataset.
@@ -121,11 +121,18 @@ def question_value_by_topic(word_list):
 #The answer “Henry VIII” appeared 3 times and was the most common answer.
 
 def unique_answers(word_list):
+    # generating the list of answers
     filtered_questions = question_finder(word_list)
     filtered_answers = filtered_questions["answer"]
-    return filtered_answers
+    answer_dict = {}
+    for answer in filtered_answers:
+        if answer in answer_dict.keys():
+            answer_dict[answer] +=1
+        else:
+            answer_dict[answer] =1
+    return answer_dict
 
-#print(unique_answers("Pokemon"))
+print(unique_answers(["Pokemon"]))
     
 
 #Requirement 7 
