@@ -43,7 +43,10 @@ def list_of_words(text):
     for punctuation in punctuation_signs:
         text = text.replace(punctuation, " ")
     word_list = text.split()
-    return word_list
+    word_list_lower = []
+    for word in word_list:
+        word_list_lower.append(word.lower())
+    return word_list_lower
 
 ## This function creates multiple variations for a list of words (currently just each word and the words plus an "s") and renders them all in lowercase. It will be used to broaden the list of possible keywords.
 
@@ -74,6 +77,9 @@ def question_finder(word_list):
     return jeopardy_df.iloc[filtered_indices]
 
 #print(question_finder(["King","Queen"]))
+#print(question_finder(["Pokemon"]))
+print(question_finder(["pokemon"]))
+#print(question_finder(["giraffe"]))
 
 #Requirement 4
 #Test your original function with a few different sets of words to try to find some ways your function breaks. Edit your function so it is more robust.
@@ -105,12 +111,22 @@ def question_value_by_topic(word_list):
     filtered_values = filtered_questions["value"]
     return filtered_values.mean()
 
-print(question_value_by_topic("Pokemon"))
-print(question_value_by_topic("Korea"))
-print(question_value_by_topic("IBM"))
+#print(question_value_by_topic("Pokemon"))
+#print(question_value_by_topic("Korea"))
+#print(question_value_by_topic("IBM"))
 
 #Requirement 6
-#Write a function that returns the count of the unique answers to all of the questions in a dataset. For example, after filtering the entire dataset to only questions containing the word "King", we could then find all of the unique answers to those questions. The answer “Henry VIII” appeared 3 times and was the most common answer.
+#Write a function that returns the count of the unique answers to all of the questions in a dataset.
+#For example, after filtering the entire dataset to only questions containing the word "King", we could then find all of the unique answers to those questions.
+#The answer “Henry VIII” appeared 3 times and was the most common answer.
+
+def unique_answers(word_list):
+    filtered_questions = question_finder(word_list)
+    filtered_answers = filtered_questions["answer"]
+    return filtered_answers
+
+#print(unique_answers("Pokemon"))
+    
 
 #Requirement 7 
 #Explore from here! This is an incredibly rich dataset, and there are so many interesting things to discover. There are a few columns that we haven’t even started looking at yet. Here are some ideas on ways to continue working with this data:
