@@ -81,7 +81,7 @@ def ranking_over_time(name,park, df = coasters):
   plt.close("all")
   plt.clf()
 
-ranking_over_time("El Toro","Six Flags Great Adventure")
+#ranking_over_time("El Toro","Six Flags Great Adventure")
 
 #REQUIREMENT 4
 #Write a function that will plot the ranking of two given roller coasters over time as lines. 
@@ -111,8 +111,7 @@ def two_rankings(name1,park1,name2,park2, df = coasters):
     #sub_df2.drop(columns = ["Location","Supplier", "Year Built","Points","Type"], inplace = True)
     #Later, write a function to avoid repeating code.
     sub_df1 = year_adder(years, sub_df1)
-    sub_df2 = year_adder(years, sub_df2)
-    
+    sub_df2 = year_adder(years, sub_df2)   
   #Line Chart Visulatization
   plt.figure()
   ax = plt.subplot()
@@ -125,7 +124,7 @@ def two_rankings(name1,park1,name2,park2, df = coasters):
   plt.title("Rankings Over Time")
   plt.xlabel("Years")
   plt.ylabel("Ranking")
-
+  #Showing & Closing Chart
   plt.show()
   plt.close("all")
   plt.clf()
@@ -163,12 +162,23 @@ def top_n(n, df):
   plt.figure()
   ax = plt.subplot()
   ax.invert_yaxis()
-  #Adding each coaster, using NamePark as the unique identifier
+  #Adding each coaster to the visualization, using NamePark as the unique identifier
   for i in sub_df.NamePark.unique():
     sub_df_i = sub_df[sub_df.NamePark == i].reset_index(drop = True)
-    #print(sub_df_i)
+    sub_df_i = year_adder(years, sub_df_i)
+    plt.plot(sub_df_i["Year of Rank"],sub_df_i["Rank"], label = sub_df_i.Name.iloc[0]+ " at "+sub_df_i.Park.iloc[0], marker='o', linestyle = "--")
+  #Labels
+  plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15))
+  plt.tight_layout()
+  plt.title("Top "+str(n)+ " Roller Coasters, Rankings Over Time")
+  plt.xlabel("Years")
+  plt.ylabel("Rankings")
+  #Showing & Closing Visualization
+  plt.show()
+  plt.close("all")
+  plt.clf()
 
-#top_n(5,df_wood)
+top_n(5,df_wood)
 
 #REQUIREMENT 6
 #Now that you’ve visualized rankings over time, let’s dive into the actual statistics of roller coasters themselves. 
