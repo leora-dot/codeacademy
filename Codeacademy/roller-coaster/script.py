@@ -281,14 +281,37 @@ def status_pie(park_val, df = df_facts):
     plt.close("all")
     plt.clf()
 
-
-
-status_pie("Six Flags Great Adventure")
+#status_pie("Six Flags Great Adventure")
 
 # REQUIREMENT 10
-#.scatter() is another useful function in matplotlib that you might not have seen before. .scatter() produces a scatter plot, which is similar to .plot() in that it plots points on a figure. .scatter(), however, does not connect the points with a line. This allows you to analyze the relationship between to variables. Find .scatter()‘s documentation here.
-# Write a function that creates a scatter plot of two numeric columns of the roller coaster DataFrame. Your function should take the roller coaster DataFrame and two-column names as arguments. Make sure to include informative labels that describe your visualization.
+#.scatter() is another useful function in matplotlib that you might not have seen before.
+#.scatter() produces a scatter plot, which is similar to .plot() in that it plots points on a figure.
+#.scatter(), however, does not connect the points with a line.
+#This allows you to analyze the relationship between to variables.
+#Find .scatter()‘s documentation here.
+# Write a function that creates a scatter plot of two numeric columns of the roller coaster DataFrame.
+#Your function should take the roller coaster DataFrame and two-column names as arguments.
+#Make sure to include informative labels that describe your visualization.
 # Call your function with the roller coaster DataFrame and two-column names.
+
+def numeric_scatter(col1,col2, df = df_facts):
+    #Validate Column Entries
+    try:
+        #Visualizing Scatter
+        plt.scatter(df[col1],df[col2])
+        #labels
+        plt.title("Roller Coaster "+col1+" versus "+col2)
+        plt.xlabel(col1)
+        plt.ylabel(col2)
+        #Showing & Closing Visualization
+        plt.tight_layout()
+        plt.show()
+        plt.close("all")
+        plt.clf()
+    except KeyError:
+        print("Please enter valid numerical columns")
+
+numeric_scatter("speed","height")
 
 # REQUIREMENT 11
 #Part of the fun of data analysis and visualization is digging into the data you have and answering questions that come to your mind.
