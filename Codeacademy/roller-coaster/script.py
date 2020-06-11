@@ -100,7 +100,7 @@ def two_rankings(name1,park1,name2,park2, df = coasters):
   #If not, we need new tables for all the years
   else:
     #To start, we need to create a list of all the years which should be in both tables.
-    #We ultimately want to capture all the years already in either table and any years in between. 
+    #We ultimately want to capture all the years already in either table and any years in between.
     min_year = min(min(sub_df1["Year of Rank"].unique()), min(sub_df2["Year of Rank"].unique()))
     max_year = max(min(sub_df1["Year of Rank"].unique()), max(sub_df2["Year of Rank"].unique()))
     #print(min_year)
@@ -190,7 +190,7 @@ def top_n(n, df):
 df_facts = pd.read_csv("roller_coasters.csv")
 
 #print(df_facts.head(10))
-print(df_facts.columns)
+#print(df_facts.columns)
 #print(len(df_facts))
 
 #print(df_facts.material_type.unique())
@@ -249,14 +249,41 @@ def inversions_bar(park_val, df = df_facts):
   plt.close("all")
   plt.clf()
 
-inversions_bar("Six Flags Great Adventure")
+#inversions_bar("Six Flags Great Adventure")
 
 #REQUIREMENT 9
 #Write a function that creates a pie chart that compares the number of operating roller coasters ('status.operating') to the number of closed roller coasters ('status.closed.definitely').
 #Your function should take the roller coaster DataFrame as an argument.
 #Make sure to include informative labels that describe your visualization.
 
-#Call your function with the roller coaster DataFrame.
+#print(df_facts.status.unique())
+
+def status_pie(park_val, df = df_facts):
+    #Filtering to just the roller coasters that we're interested in
+    sub_df = df[(df.park == park_val) & ((df.status == "status.operating") | (df.status == "status.closed.definitely"))].reset_index(drop = True)
+    #Simplifying the tables because I am sick of scrolling. Comment this out later.
+    #sub_df.drop(columns = ["material_type", "num_inversions", "seating_type", "height", "length", "manufacturer", "speed", "park"], inplace = True)
+    #print(sub_df)
+    #Creating Table by status & renaming labels
+    status_df = sub_df.groupby(["status"]).name.count().reset_index()
+    status_df.status = status_df.status.apply(lambda x : "Operating" if x == "status.operating" else x)
+    status_df.status = status_df.status.apply(lambda x : "Closed" if x == "status.closed.definitely" else x)
+    print(status_df)
+    #Visualizing pie
+    plt.pie(status_df.name.tolist(), autopct ='%0.1f%%' )
+    plt.axis('equal')
+    #Labels
+    plt.title("Closed & Operating Roller Coasters at "+park_val)
+    plt.legend(status_df.status.tolist())
+    ##Showing & Closing Visualization
+    plt.tight_layout()
+    plt.show()
+    plt.close("all")
+    plt.clf()
+
+
+
+status_pie("Six Flags Great Adventure")
 
 # REQUIREMENT 10
 #.scatter() is another useful function in matplotlib that you might not have seen before. .scatter() produces a scatter plot, which is similar to .plot() in that it plots points on a figure. .scatter(), however, does not connect the points with a line. This allows you to analyze the relationship between to variables. Find .scatter()‘s documentation here.
