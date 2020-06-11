@@ -2,11 +2,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 #REQUIREMENT 2
-#Roller coasters are thrilling amusement park rides designed to make you squeal and scream! 
-#They take you up high, drop you to the ground quickly, and sometimes even spin you upside down before returning to a stop. 
+#Roller coasters are thrilling amusement park rides designed to make you squeal and scream!
+#They take you up high, drop you to the ground quickly, and sometimes even spin you upside down before returning to a stop.
 #Today you will be taking control back from the roller coasters and visualizing data covering international roller coaster rankings and roller coaster statistics.
-#Roller coasters are often split into two main categories based on their construction material: wood or steel. 
-#Rankings for the best wood and steel roller coasters from the 2013 to 2018 Golden Ticket Awards are provided in 'Golden_Ticket_Award_Winners_Wood.csv' and 'Golden_Ticket_Award_Winners_Steel.csv', respectively. 
+#Roller coasters are often split into two main categories based on their construction material: wood or steel.
+#Rankings for the best wood and steel roller coasters from the 2013 to 2018 Golden Ticket Awards are provided in 'Golden_Ticket_Award_Winners_Wood.csv' and 'Golden_Ticket_Award_Winners_Steel.csv', respectively.
 #Load each csv into a DataFrame and inspect it to gain familiarity with the data.
 
 df_wood = pd.read_csv('Golden_Ticket_Award_Winners_Wood.csv')
@@ -37,7 +37,7 @@ coasters = pd.concat(df_list)
 # MY FUNCTIONS
 # My functions that power the required functions go here
 
-#This function creates a list of consecutive years given a first year and a last year. 
+#This function creates a list of consecutive years given a first year and a last year.
 
 def year_list(min_year,max_year):
   years = [min_year]
@@ -55,13 +55,13 @@ def year_adder(year_list, df):
       df = df.append({"Name" : name, "Park" : park, "Year of Rank" : year} , ignore_index=True)
   df.sort_values(by =["Year of Rank"], inplace = True)
   return df
-  
+
 
 # REQUIREMENT 3
-# Write a function that will plot the ranking of a given roller coaster over time as a line. 
-#Your function should take a roller coaster’s name and a ranking DataFrame as arguments. 
+# Write a function that will plot the ranking of a given roller coaster over time as a line.
+#Your function should take a roller coaster’s name and a ranking DataFrame as arguments.
 #Make sure to include informative labels that describe your visualization.
-# Call your function with "El Toro" as the roller coaster name and the wood ranking DataFrame. 
+# Call your function with "El Toro" as the roller coaster name and the wood ranking DataFrame.
 #What issue do you notice? Update your function with an additional argument to alleviate the problem, and retest your function.
 
 def ranking_over_time(name,park, df = coasters):
@@ -84,10 +84,10 @@ def ranking_over_time(name,park, df = coasters):
 #ranking_over_time("El Toro","Six Flags Great Adventure")
 
 #REQUIREMENT 4
-#Write a function that will plot the ranking of two given roller coasters over time as lines. 
-#Your function should take both roller coasters’ names and a ranking DataFrame as arguments. 
+#Write a function that will plot the ranking of two given roller coasters over time as lines.
+#Your function should take both roller coasters’ names and a ranking DataFrame as arguments.
 #Make sure to include informative labels that describe your visualization.
-#Call your function with "El Toro" as one roller coaster name, “Boulder Dash“ as the other roller coaster name, and the wood ranking DataFrame. 
+#Call your function with "El Toro" as one roller coaster name, “Boulder Dash“ as the other roller coaster name, and the wood ranking DataFrame.
 #What issue do you notice? Update your function with two additional arguments to alleviate the problem, and retest your function.
 
 def two_rankings(name1,park1,name2,park2, df = coasters):
@@ -99,19 +99,20 @@ def two_rankings(name1,park1,name2,park2, df = coasters):
     pass
   #If not, we need new tables for all the years
   else:
-    #To start, we need to create a list of all the years which should be in both tables. We ultimately want to capture all the years already in either table and any years in between. 
+    #To start, we need to create a list of all the years which should be in both tables.
+    #We ultimately want to capture all the years already in either table and any years in between. 
     min_year = min(min(sub_df1["Year of Rank"].unique()), min(sub_df2["Year of Rank"].unique()))
     max_year = max(min(sub_df1["Year of Rank"].unique()), max(sub_df2["Year of Rank"].unique()))
     #print(min_year)
     #print(max_year)
     years = year_list(min_year, max_year)
     #We need to add these years to both tables:
-    #Simplifying the tables because I am sick of scrolling. Comment this out later.  
+    #Simplifying the tables because I am sick of scrolling. Comment this out later.
     #sub_df1.drop(columns = ["Location","Supplier", "Year Built","Points","Type"], inplace = True)
     #sub_df2.drop(columns = ["Location","Supplier", "Year Built","Points","Type"], inplace = True)
     #Later, write a function to avoid repeating code.
     sub_df1 = year_adder(years, sub_df1)
-    sub_df2 = year_adder(years, sub_df2)   
+    sub_df2 = year_adder(years, sub_df2)
   #Line Chart Visulatization
   plt.figure()
   ax = plt.subplot()
@@ -136,8 +137,8 @@ def two_rankings(name1,park1,name2,park2, df = coasters):
 #two_rankings("El Toro","Six Flags Great Adventure","Steel Vengeance", "Cedar Point")
 
 #REQUIREMENT 5
-#Write a function that will plot the ranking of the top n ranked roller coasters over time as lines. 
-#Your function should take a number n and a ranking DataFrame as arguments. 
+#Write a function that will plot the ranking of the top n ranked roller coasters over time as lines.
+#Your function should take a number n and a ranking DataFrame as arguments.
 #Make sure to include informative labels that describe your visualization.
 #For example, if n == 5, your function should plot a line for each roller coaster that has a rank of 5 or lower.
 #Call your function with a value for n and either the wood ranking or steel ranking DataFrame.
@@ -145,7 +146,7 @@ def two_rankings(name1,park1,name2,park2, df = coasters):
 def top_n(n, df):
   #Simplifying the tables because I am sick of scrolling. Comment this out later.
   #Identifying the top n coasters
-  #Here is a df of the top n coasters this year  
+  #Here is a df of the top n coasters this year
   df.drop(columns = ["Location","Supplier", "Year Built","Points","Type"], inplace = True)
   latest_year_df = df[(df.Rank <= n) & (df["Year of Rank"] == max(df["Year of Rank"].unique()))].reset_index(drop = True)
   #We're going to create a new column that combines name and park, so that we can filter by the combination
@@ -181,23 +182,23 @@ def top_n(n, df):
 #top_n(5,df_wood)
 
 #REQUIREMENT 6
-#Now that you’ve visualized rankings over time, let’s dive into the actual statistics of roller coasters themselves. 
-#Captain Coaster is a popular site for recording roller coaster information. 
-#Data on all roller coasters documented on Captain Coaster has been accessed through its API and stored in roller_coasters.csv. 
+#Now that you’ve visualized rankings over time, let’s dive into the actual statistics of roller coasters themselves.
+#Captain Coaster is a popular site for recording roller coaster information.
+#Data on all roller coasters documented on Captain Coaster has been accessed through its API and stored in roller_coasters.csv.
 #Load the data from the csv into a DataFrame and inspect it to gain familiarity with the data.
 
 df_facts = pd.read_csv("roller_coasters.csv")
 
 #print(df_facts.head(10))
-#print(df_facts.columns)
+print(df_facts.columns)
 #print(len(df_facts))
 
 #print(df_facts.material_type.unique())
 #print(df_facts.seating_type.unique())
 
 #REQUIREMENT 7
-#Write a function that plots a histogram of any numeric column of the roller coaster DataFrame. 
-#Your function should take a DataFrame and a column name for which a histogram should be constructed as arguments. 
+#Write a function that plots a histogram of any numeric column of the roller coaster DataFrame.
+#Your function should take a DataFrame and a column name for which a histogram should be constructed as arguments.
 #Make sure to include informative labels that describe your visualization.
 #Call your function with the roller coaster DataFrame and one of the column names.
 
@@ -219,18 +220,40 @@ def numeric_hist(column, df = df_facts):
   except KeyError:
     print("Please enter a valid numerical column")
 
-numeric_hist("sped")
+#numeric_hist("speed")
 
 #REQUIREMENT 8
-#Write a function that creates a bar chart showing the number of inversions for each roller coaster at an amusement park. 
-#Your function should take the roller coaster DataFrame and an amusement park name as arguments. 
+#Write a function that creates a bar chart showing the number of inversions for each roller coaster at an amusement park.
+#Your function should take the roller coaster DataFrame and an amusement park name as arguments.
 #Make sure to include informative labels that describe your visualization.
-
 #Call your function with the roller coaster DataFrame and an amusement park name.
 
+def inversions_bar(park_val, df = df_facts):
+  sub_df = df[df.park == park_val].reset_index(drop = True)
+  sub_df.sort_values(by =["num_inversions"], ascending=False, inplace = True)
+  #Simplifying the tables because I am sick of scrolling. Comment this out later.
+  #sub_df.drop(columns = ["material_type", "status", "seating_type", "height", "length", "manufacturer", "speed", "park"], inplace = True)
+  #print(sub_df)
+  #Visualizing Bar
+  ax = plt.subplot()
+  plt.bar(range(len(sub_df.name.values)), sub_df.num_inversions)
+  #Labels
+  ax.set_xticks(range(len(sub_df.name.values)))
+  ax.set_xticklabels(sub_df.name.values)
+  plt.xticks(rotation=90)
+  plt.title("Inversions Per Rollercoaster at "+park_val)
+  plt.ylabel("Inversions")
+  ##Showing & Closing Visualization
+  plt.tight_layout()
+  plt.show()
+  plt.close("all")
+  plt.clf()
+
+inversions_bar("Six Flags Great Adventure")
+
 #REQUIREMENT 9
-#Write a function that creates a pie chart that compares the number of operating roller coasters ('status.operating') to the number of closed roller coasters ('status.closed.definitely'). 
-#Your function should take the roller coaster DataFrame as an argument. 
+#Write a function that creates a pie chart that compares the number of operating roller coasters ('status.operating') to the number of closed roller coasters ('status.closed.definitely').
+#Your function should take the roller coaster DataFrame as an argument.
 #Make sure to include informative labels that describe your visualization.
 
 #Call your function with the roller coaster DataFrame.
@@ -242,4 +265,3 @@ numeric_hist("sped")
 
 # REQUIREMENT 11
 #Part of the fun of data analysis and visualization is digging into the data you have and answering questions that come to your mind.
-
