@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 # Investigate duplicates
 # Update all visualizations consistent format
 # Make functions for repeated code:
-	# Year List Creator
 	# Year List Adder
 	# Make sure all functions have df input
 
@@ -44,6 +43,17 @@ coasters = pd.concat(df_list)
 #print(coasters.Type.value_counts())
 #print(coasters["Year of Rank"].value_counts())
 
+# MY FUNCTIONS
+# My functions that power the required functions go here
+
+#This function creates a list of consecutive years given a first year and a last year. 
+
+def year_list(min_year,max_year):
+  years = [min_year]
+  while years[-1] != max_year:
+    years.append(years[-1] +1)
+  return years
+
 # REQUIREMENT 3
 # Write a function that will plot the ranking of a given roller coaster over time as a line. 
 #Your function should take a roller coaster’s name and a ranking DataFrame as arguments. 
@@ -68,7 +78,7 @@ def ranking_over_time(name,park, df = coasters):
   plt.close("all")
   plt.clf()
 
-ranking_over_time("El Toro","Six Flags Great Adventure")
+#ranking_over_time("El Toro","Six Flags Great Adventure")
 
 #REQUIREMENT 4
 #Write a function that will plot the ranking of two given roller coasters over time as lines. 
@@ -91,9 +101,7 @@ def two_rankings(name1,park1,name2,park2, df = coasters):
     max_year = max(min(sub_df1["Year of Rank"].unique()), max(sub_df2["Year of Rank"].unique()))
     #print(min_year)
     #print(max_year)
-    years = [min_year]
-    while years[-1] != max_year:
-      years.append(years[-1] +1)
+    years = year_list(min_year, max_year)
     #We need to add these years to both tables:
     #Simplifying the tables because I am sick of scrolling. Comment this out later.  
     #sub_df1.drop(columns = ["Location","Supplier", "Year Built","Points","Type"], inplace = True)
@@ -160,9 +168,7 @@ def top_n(n,df):
   #print(sub_df)
   min_year = min(sub_df["Year of Rank"])
   max_year = max(sub_df["Year of Rank"])
-  years = [min_year]
-  while years[-1] != max_year:
-    years.append(years[-1] +1)
+  years = year_list(min_year,max_year)
   #Starting the visualization
   plt.figure()
   ax = plt.subplot()
