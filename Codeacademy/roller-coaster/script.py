@@ -6,9 +6,6 @@ import matplotlib.pyplot as plt
 #Cleaning To Do List:
 # Investigate duplicates
 # Update all visualizations consistent format
-# Make functions for repeated code:
-	# Year List Adder
-	# Make sure all functions have df input
 
 #REQUIREMENT 2
 #Roller coasters are thrilling amusement park rides designed to make you squeal and scream! 
@@ -53,6 +50,18 @@ def year_list(min_year,max_year):
   while years[-1] != max_year:
     years.append(years[-1] +1)
   return years
+
+def year_adder(year_list, df):
+  name = df.Name.iloc[0]
+  park = df.Park.iloc[0]
+  for year in year_list:
+    if year in df["Year of Rank"].unique():
+        pass
+    else:
+      df = df.append({"Name" : name, "Park" : park, "Year of Rank" : year} , ignore_index=True)
+  df.sort_values(by =["Year of Rank"], inplace = True)
+  return df
+  
 
 # REQUIREMENT 3
 # Write a function that will plot the ranking of a given roller coaster over time as a line. 
@@ -106,23 +115,10 @@ def two_rankings(name1,park1,name2,park2, df = coasters):
     #Simplifying the tables because I am sick of scrolling. Comment this out later.  
     #sub_df1.drop(columns = ["Location","Supplier", "Year Built","Points","Type"], inplace = True)
     #sub_df2.drop(columns = ["Location","Supplier", "Year Built","Points","Type"], inplace = True)
-    #Later, write a function to avoid repeating code. 
-    for year in years:
-      #Adding values to df1
-      if year in sub_df1["Year of Rank"].unique():
-        pass
-      else:
-        sub_df1 = sub_df1.append({"Name" : name2, "Park" : park2, "Year of Rank" : year} , ignore_index=True)
-      #Adding values to df2
-      if year in sub_df2["Year of Rank"].unique():
-        pass
-      else:
-        sub_df2 = sub_df2.append({ "Name" : name2, "Park" : park2, "Year of Rank" : year} , ignore_index=True)
-  #Sort both tables
-  sub_df1.sort_values(by =["Year of Rank"], inplace = True)
-  sub_df2.sort_values(by =["Year of Rank"], inplace = True)
-  #print(sub_df1)
-  #print(sub_df2)
+    #Later, write a function to avoid repeating code.
+    sub_df1 = year_adder(years, sub_df1)
+    sub_df2 = year_adder(years, sub_df2)
+    
   #Line Chart Visulatization
   plt.figure()
   ax = plt.subplot()
@@ -153,7 +149,7 @@ two_rankings("El Toro","Six Flags Great Adventure","Steel Vengeance", "Cedar Poi
 #For example, if n == 5, your function should plot a line for each roller coaster that has a rank of 5 or lower.
 #Call your function with a value for n and either the wood ranking or steel ranking DataFrame.
 
-def top_n(n,df):
+def top_n(n, df):
   #Simplifying the tables because I am sick of scrolling. Comment this out later.
   #Identifying the top n coasters
   #Here is a df of the top n coasters this year  
@@ -178,7 +174,7 @@ def top_n(n,df):
     sub_df_i = sub_df[sub_df.NamePark == i].reset_index(drop = True)
     #print(sub_df_i)
 
-top_n(5,df_wood)
+#top_n(5,df_wood)
 
 #REQUIREMENT 6
 #Now that you’ve visualized rankings over time, let’s dive into the actual statistics of roller coasters themselves. 
