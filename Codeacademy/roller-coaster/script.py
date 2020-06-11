@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 #This code is a mess, and it is only getting worse. Clean it before you keep building!!
 
 #Cleaning To Do List:
-# Fix all reset index lines
 # Investigate duplicates
 # Update all visualizations consistent format
 # Make functions for repeated code:
@@ -54,7 +53,7 @@ coasters = pd.concat(df_list)
 
 def ranking_over_time(name,park, df = coasters):
   # Generating the Rankings
-  sub_df = df[(df.Name == name) & (df.Park == park)].reset_index()
+  sub_df = df[(df.Name == name) & (df.Park == park)].reset_index(drop = True)
   #print(sub_df.head(10))
   #Visualizing Rankings
   ax = plt.subplot()
@@ -69,7 +68,7 @@ def ranking_over_time(name,park, df = coasters):
   plt.close("all")
   plt.clf()
 
-#ranking_over_time("El Toro","Six Flags Great Adventure")
+ranking_over_time("El Toro","Six Flags Great Adventure")
 
 #REQUIREMENT 4
 #Write a function that will plot the ranking of two given roller coasters over time as lines. 
@@ -80,8 +79,8 @@ def ranking_over_time(name,park, df = coasters):
 
 def two_rankings(name1,park1,name2,park2, df = coasters):
   #Generating Rankings
-  sub_df1 = df[(df.Name == name1) & (df.Park == park1)].reset_index()
-  sub_df2 = df[(df.Name == name2) & (df.Park == park2)].reset_index()
+  sub_df1 = df[(df.Name == name1) & (df.Park == park1)].reset_index(drop = True)
+  sub_df2 = df[(df.Name == name2) & (df.Park == park2)].reset_index(drop = True)
   #Are years in each list identical? If so, we can skip to visualization.
   if sub_df1["Year of Rank"].equals(sub_df2["Year of Rank"]):
     pass
@@ -97,8 +96,8 @@ def two_rankings(name1,park1,name2,park2, df = coasters):
       years.append(years[-1] +1)
     #We need to add these years to both tables:
     #Simplifying the tables because I am sick of scrolling. Comment this out later.  
-    #sub_df1.drop(columns = ["index","Location","Supplier", "Year Built","Points","Type"], inplace = True)
-    #sub_df2.drop(columns = ["index","Location","Supplier", "Year Built","Points","Type"], inplace = True)
+    #sub_df1.drop(columns = ["Location","Supplier", "Year Built","Points","Type"], inplace = True)
+    #sub_df2.drop(columns = ["Location","Supplier", "Year Built","Points","Type"], inplace = True)
     #Later, write a function to avoid repeating code. 
     for year in years:
       #Adding values to df1
@@ -137,7 +136,7 @@ def two_rankings(name1,park1,name2,park2, df = coasters):
 #two_rankings("El Toro","Six Flags Great Adventure","Boulder Dash","Lake Compounce")
 
 #Test when roller coasters have different years
-#two_rankings("El Toro","Six Flags Great Adventure","Steel Vengeance", "Cedar Point")
+two_rankings("El Toro","Six Flags Great Adventure","Steel Vengeance", "Cedar Point")
 
 #REQUIREMENT 5
 #Write a function that will plot the ranking of the top n ranked roller coasters over time as lines. 
@@ -151,16 +150,14 @@ def top_n(n,df):
   #Identifying the top n coasters
   #Here is a df of the top n coasters this year  
   df.drop(columns = ["Location","Supplier", "Year Built","Points","Type"], inplace = True)
-  latest_year_df = df[(df.Rank <= n) & (df["Year of Rank"] == max(df["Year of Rank"].unique()))].reset_index()
-  latest_year_df.drop(columns = ["index"], inplace = True)
+  latest_year_df = df[(df.Rank <= n) & (df["Year of Rank"] == max(df["Year of Rank"].unique()))].reset_index(drop = True)
   #We're going to create a new column that combines name and park, so that we can filter by the combination
   latest_year_df["NamePark"] = latest_year_df.Name + latest_year_df.Park
   namepark_list = latest_year_df.NamePark.unique()
   df["NamePark"] = df.Name + df.Park
   #Now we can filter down to just the data that we actually want and identify the years for which we need data
-  sub_df = df[df.NamePark.isin(namepark_list)].reset_index()
-  sub_df.drop(columns = ["index"], inplace = True)
-  print(sub_df)
+  sub_df = df[df.NamePark.isin(namepark_list)].reset_index(drop = True)
+  #print(sub_df)
   min_year = min(sub_df["Year of Rank"])
   max_year = max(sub_df["Year of Rank"])
   years = [min_year]
