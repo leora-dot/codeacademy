@@ -178,7 +178,7 @@ def top_n(n, df):
   plt.close("all")
   plt.clf()
 
-top_n(5,df_wood)
+#top_n(5,df_wood)
 
 #REQUIREMENT 6
 #Now that you’ve visualized rankings over time, let’s dive into the actual statistics of roller coasters themselves. 
@@ -186,11 +186,40 @@ top_n(5,df_wood)
 #Data on all roller coasters documented on Captain Coaster has been accessed through its API and stored in roller_coasters.csv. 
 #Load the data from the csv into a DataFrame and inspect it to gain familiarity with the data.
 
+df_facts = pd.read_csv("roller_coasters.csv")
+
+#print(df_facts.head(10))
+#print(df_facts.columns)
+#print(len(df_facts))
+
+#print(df_facts.material_type.unique())
+#print(df_facts.seating_type.unique())
+
 #REQUIREMENT 7
 #Write a function that plots a histogram of any numeric column of the roller coaster DataFrame. 
 #Your function should take a DataFrame and a column name for which a histogram should be constructed as arguments. 
 #Make sure to include informative labels that describe your visualization.
 #Call your function with the roller coaster DataFrame and one of the column names.
+
+#print(df_facts.dtypes)
+
+def numeric_hist(column, df = df_facts):
+  #Validate Column Entry
+  try:
+    #Plot Histogram
+    plt.hist(df[column], bins = 20)
+    #Labels
+    plt.title("Histogram of "+column)
+    plt.ylabel("Frequency")
+    plt.xlabel(column)
+    #Showing & Closing Visualization
+    plt.show()
+    plt.close("all")
+    plt.clf()
+  except KeyError:
+    print("Please enter a valid numerical column")
+
+numeric_hist("sped")
 
 #REQUIREMENT 8
 #Write a function that creates a bar chart showing the number of inversions for each roller coaster at an amusement park. 
