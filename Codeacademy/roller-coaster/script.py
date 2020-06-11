@@ -1,12 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-#This code is a mess, and it is only getting worse. Clean it before you keep building!!
-
-#Cleaning To Do List:
-# Investigate duplicates
-# Update all visualizations consistent format
-
 #REQUIREMENT 2
 #Roller coasters are thrilling amusement park rides designed to make you squeal and scream! 
 #They take you up high, drop you to the ground quickly, and sometimes even spin you upside down before returning to a stop. 
@@ -71,23 +65,23 @@ def year_adder(year_list, df):
 #What issue do you notice? Update your function with an additional argument to alleviate the problem, and retest your function.
 
 def ranking_over_time(name,park, df = coasters):
-  # Generating the Rankings
+  #Generating the Rankings
   sub_df = df[(df.Name == name) & (df.Park == park)].reset_index(drop = True)
   #print(sub_df.head(10))
-  #Visualizing Rankings
+  #Charting Rankings
   ax = plt.subplot()
-  plt.bar(range(len(sub_df["Year of Rank"])),sub_df.Rank)
+  ax.invert_yaxis()
+  plt.plot(sub_df["Year of Rank"],sub_df["Rank"], marker='o', linestyle = "--")
   #Labels
   plt.title(name+" at "+park+", Ranking Over Time")
   plt.xlabel("Year")
   plt.ylabel("Ranking")
-  ax.set_xticks(range(len(sub_df["Year of Rank"])))
-  ax.set_xticklabels(sub_df["Year of Rank"])
+  #Showing & Closing Plot
   plt.show()
   plt.close("all")
   plt.clf()
 
-#ranking_over_time("El Toro","Six Flags Great Adventure")
+ranking_over_time("El Toro","Six Flags Great Adventure")
 
 #REQUIREMENT 4
 #Write a function that will plot the ranking of two given roller coasters over time as lines. 
@@ -140,7 +134,7 @@ def two_rankings(name1,park1,name2,park2, df = coasters):
 #two_rankings("El Toro","Six Flags Great Adventure","Boulder Dash","Lake Compounce")
 
 #Test when roller coasters have different years
-two_rankings("El Toro","Six Flags Great Adventure","Steel Vengeance", "Cedar Point")
+#two_rankings("El Toro","Six Flags Great Adventure","Steel Vengeance", "Cedar Point")
 
 #REQUIREMENT 5
 #Write a function that will plot the ranking of the top n ranked roller coasters over time as lines. 
