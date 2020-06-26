@@ -311,7 +311,12 @@ def numeric_scatter(col1,col2, df = df_facts):
     except KeyError:
         print("Please enter valid numerical columns")
 
-numeric_scatter("speed","height")
+#numeric_scatter("speed","height")
 
 # REQUIREMENT 11
 #Part of the fun of data analysis and visualization is digging into the data you have and answering questions that come to your mind.
+
+#Size of Tallest Coaster by Park?
+
+#print(df_facts.columns)
+#print(df_facts.manufacturer.nunique())
